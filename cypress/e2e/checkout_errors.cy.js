@@ -7,28 +7,32 @@ describe('Testes Negativos de Checkout', () => {
         cy.prepararCarrinho(['backpack'])
         CartPage.irParaCheckout()
         CheckoutStepOnePage.validarCheckoutStepOne()
+        CheckoutStepOnePage.limparCampos()
     })
 
     it('Não deve avançar sem preencher First Name', () => {
-        CheckoutStepOnePage.preencherDados('', 'QA', '12345')
+        CheckoutStepOnePage.preencherUltimoNome('QA')
+        CheckoutStepOnePage.preencherCep('12345')
         CheckoutStepOnePage.clicarContinue()
-        cy.get('[data-test="error"]').should('contain.text', 'First Name is required')
+        CheckoutStepOnePage.validarMensagemDeErro('First Name is required')
     })
 
     it('Não deve avançar sem preencher Last Name', () => {
-        CheckoutStepOnePage.preencherDados('João', '', '12345')
+        CheckoutStepOnePage.preencherPrimeiroNome('João')
+        CheckoutStepOnePage.preencherCep('12345')
         CheckoutStepOnePage.clicarContinue()
-        cy.get('[data-test="error"]').should('contain.text', 'Last Name is required')
+        CheckoutStepOnePage.validarMensagemDeErro('Last Name is required')
     })
 
     it('Não deve avançar sem preencher o Zip Code', () => {
-        CheckoutStepOnePage.preencherDados('João', 'QA', '')
+        CheckoutStepOnePage.preencherPrimeiroNome('João')
+        CheckoutStepOnePage.preencherUltimoNome('QA')
         CheckoutStepOnePage.clicarContinue()
-        cy.get('[data-test="error"]').should('contain.text', 'Postal Code is required')
+        CheckoutStepOnePage.validarMensagemDeErro('Postal Code is required')
     })
 
     it('Não deve avançar com todos os campos vazios', () => {
         CheckoutStepOnePage.clicarContinue()
-        cy.get('[data-test="error"]').should('contain.text', 'First Name is required')
+        CheckoutStepOnePage.validarMensagemDeErro('First Name is required')
     })
 })

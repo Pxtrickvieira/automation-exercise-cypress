@@ -5,6 +5,7 @@ class CheckoutStepOnePage {
         lastName: () => cy.get('[data-test="lastName"]'),
         postalCode: () => cy.get('[data-test="postalCode"]'),
         continueButton: () => cy.get('[data-test="continue"]'),
+        errorMessage: () => cy.get('[data-test="error"]'),
         title: () => cy.get('.title')
     }
 
@@ -13,22 +14,46 @@ class CheckoutStepOnePage {
         this.elements.title().should('contain.text', 'Checkout: Your Information')
     }
 
-    preencherDados(first, last, postal) {
-        if (first) {
-            this.elements.firstName().type(first)
-        }
-
-        if (last) {
-            this.elements.lastName().type(last)
-        }
-
-        if (postal) {
-            this.elements.postalCode().type(postal)
-        }
+    // -------- MÉTODOS NOVOS --------
+    preencherPrimeiroNome(valor) {
+        this.elements.firstName().clear().type(valor)
     }
+
+    preencherUltimoNome(valor) {
+        this.elements.lastName().clear().type(valor)
+    }
+
+    preencherCep(valor) {
+        this.elements.postalCode().clear().type(valor)
+    }
+
+    preencherTodosOsDados(first, last, postal) {
+        this.preencherPrimeiroNome(first)
+        this.preencherUltimoNome(last)
+        this.preencherCep(postal)
+    }
+
+    // -------- MÉTODO ANTIGO (PARA NÃO QUEBRAR SEUS TESTES) --------
+    preencherDados(first, last, postal) {
+        if (first !== undefined) this.preencherPrimeiroNome(first)
+        if (last !== undefined) this.preencherUltimoNome(last)
+        if (postal !== undefined) this.preencherCep(postal)
+    }
+
+    // ----------------------------------------
 
     clicarContinue() {
         this.elements.continueButton().click()
+    }
+
+    validarMensagemDeErro(mensagemEsperada) {
+        this.elements.errorMessage().should('contain.text', mensagemEsperada)
+    }
+
+    limparCampos() {
+        this.elements.firstName().clear()
+        this.elements.lastName().clear()
+        this.elements.postalCode().clear()
     }
 }
 

@@ -1,9 +1,9 @@
 import LoginPage from '../pages/LoginPage'
 import InventoryPage from '../pages/InventoryPage'
 import CartPage from '../pages/CartPage'
-import CheckoutCompletePage from '../pages/CheckoutCompletePage' 
+import CheckoutCompletePage from '../pages/CheckoutCompletePage'
 
-describe('Home Page', () => {
+describe('Smoke Tests - Fluxos principais da aplicação', () => {
 
     it('Deve acessar a página inicial', () => {
         LoginPage.acessarSite()
@@ -21,12 +21,12 @@ describe('Home Page', () => {
         CartPage.validarPaginaCarrinho()
     })
 
-    it('Deve adicionar a mochila ao carrinho', () => {
+    it('Deve adicionar a Backpack ao carrinho', () => {
         cy.prepararCarrinho(['backpack'])
         cy.get('.inventory_item_name').should('contain.text', 'Sauce Labs Backpack')
     })
 
-    it('Deve finalizar compra da Backpack', () => {
+    it('Deve finalizar a compra da Backpack com sucesso', () => {
         cy.checkoutCompleto(['backpack'])
         CheckoutCompletePage.voltarParaProdutos()
         InventoryPage.validarPaginaAposLogin()

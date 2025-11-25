@@ -5,15 +5,17 @@ describe('Inventory Tests', () => {
 
     beforeEach(() => {
         cy.login()
-    })
-
-    it('Valida página', () => {
         InventoryPage.validarPaginaAposLogin()
     })
 
-    it('Adiciona mochila ao carrinho', () => {
+    it('Deve validar página de inventário', () => {
+        InventoryPage.validarPaginaAposLogin()
+    })
+
+    it('Deve adicionar a mochila ao carrinho com sucesso', () => {
         cy.adicionarItem('backpack')
         InventoryPage.abrirCarrinho()
         CartPage.validarPaginaCarrinho()
+        CartPage.validarNomeDoProduto('Sauce Labs Backpack')
     })
 })
