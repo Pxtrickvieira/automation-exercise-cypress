@@ -4,6 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
 
 jobs:
   cypress-run:
@@ -22,10 +23,4 @@ jobs:
         run: npm install
 
       - name: Executar Cypress
-        run: npm run cy:run
-
-      - name: Upload dos relatórios
-        uses: actions/upload-artifact@v4
-        with:
-          name: mochawesome-report
-          path: cypress/reports
+        run: npx cypress run
